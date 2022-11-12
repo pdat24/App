@@ -2,7 +2,6 @@ import tkinter as tk
 from tkinter import ttk
 from tkinter.messagebox import showerror, showwarning
 import math
-from re import match
 
 class Solving_sqrt(object):
 
@@ -32,7 +31,7 @@ class Solving_sqrt(object):
             if (string[i]) != ')':
                 self.numbers_after_sqrt_sign += string[i]
             else:
-                self.result_after_sqrt = str(math.sqrt(eval(self.numbers_after_sqrt_sign, {})))
+                self.result_after_sqrt = str(math.sqrt(eval(self.numbers_after_sqrt_sign, {'π':math.pi, 'e':math.e})))
                 self.the_remain_value_after_sqrt = string[i+1:]
                 break
         self.the_value_will_be_returned = self.the_left_value_of_sqrt_sign + self.result_after_sqrt + self.the_remain_value_after_sqrt
@@ -55,7 +54,6 @@ class EnterExpression(ttk.Frame, Solving_sqrt):
         super(EnterExpression, self).__init__()
         self.expression_is_computed = False
         self.radix_system = 'D'
-
         self.screen_after_expression_is_deleted = tk.Canvas(self, width = 296, height = 120, bg = 'gray')
         self.screen_after_expression_is_deleted.grid(row = 0, column = 0, columnspan = 6, pady = 10)
         self.bit = tk.Label(self, text = f'{self.radix_system}', bg = 'gray', font = "courier 11")
@@ -93,12 +91,11 @@ class EnterExpression(ttk.Frame, Solving_sqrt):
         self.e          = ttk.Button(self, text = "e", command = lambda: self.showscreen('e'), width = 5)
         self.pow        = ttk.Button(self, text = "^", command = lambda: self.showscreen('^'), width = 5)
         self.sqrt       = ttk.Button(self, text = "√", command = lambda: self.showscreen('√'), width = 5)
-        self.equal_sign = ttk.Button(self, text = "=", command = lambda: self.showscreen('='), width = 5)
+        self.equal_sign = ttk.Button(self, text = "=", command = lambda: self.showscreen('='), width = 10)
         self.Dec        = ttk.Button(self, text = "Dec", command = lambda: self.showscreen("Dec"), width = 5)
         self.Bin        = ttk.Button(self, text = "Bin", command = lambda: self.showscreen("Bin"), width = 5)
         self.Oct        = ttk.Button(self, text = "Oct", command = lambda: self.showscreen("Oct"), width = 5)
         self.Hex        = ttk.Button(self, text = "Hex", command = lambda: self.showscreen("Hex"), width = 5)
-
 
         self.zero.grid      (row = 2, column = 0, pady = 5, sticky = 'w', ipady = 5, ipadx = 1)
         self.one.grid       (row = 2, column = 1, pady = 5, sticky = 'w', ipady = 5, ipadx = 1)
@@ -118,7 +115,7 @@ class EnterExpression(ttk.Frame, Solving_sqrt):
         self.pow.grid       (row = 4, column = 4, pady = 5, sticky = 'w', ipady = 5, ipadx = 1)
         self.sqrt.grid      (row = 4, column = 5, pady = 5, sticky = 'w', ipady = 5, ipadx = 1)
         self.ans.grid       (row = 3, column = 5, pady = 5, sticky = 'w', ipady = 5, ipadx = 1)
-        self.equal_sign.grid(row = 5, column = 5, pady = 5, sticky = 'w', ipady = 5, ipadx = 1)
+        self.equal_sign.grid(row = 5, column = 4, columnspan = 2, pady = 5, sticky = 'w', ipady = 5, ipadx = 11)
         self.Dec.grid       (row = 5, column = 0, pady = 5, sticky = 'w', ipady = 5, ipadx = 1)
         self.Bin.grid       (row = 5, column = 1, pady = 5, sticky = 'w', ipady = 5, ipadx = 1)
         self.Oct.grid       (row = 5, column = 2, pady = 5, sticky = 'w', ipady = 5, ipadx = 1)
@@ -184,7 +181,7 @@ class EnterExpression(ttk.Frame, Solving_sqrt):
                         self.screen_after_expression_is_deleted = tk.Canvas(self, width = 296, height = 120, bg = 'gray')
                         self.expression_will_be_displayed = tk.Label(self, text = f"{eval(self.expression_will_be_evaluted)}", font = "tkDefaeultFont 13", bg = "gray")
                         self.screen_after_expression_is_deleted.grid(row = 0, column = 0, columnspan = 6, pady = 10)
-
+                    
                     self.result = tk.Label(self, text = f"= {self.expression_will_be_evaluted}", font = "tkDefaeultFont 13", bg = "gray")
                     self.result.grid(row =0 , column = 0, columnspan = 6, pady = 15, padx = 10, sticky = "sw")
                     self.Ans = float(eval(self.expression_will_be_evaluted))
@@ -227,17 +224,12 @@ class EnterExpression(ttk.Frame, Solving_sqrt):
             self.bit_mode.grid(column = 0, row = 0, columnspan = 6, sticky = 'ne', padx = 10, pady = 12)
         except Exception as e:
             ...
-
-    def frames(self):
-        ...
-
 class App(tk.Tk):
     def __init__(self):
         super(App, self).__init__()
         self.geometry("300x400")
         self.resizable(False, False)
         self.title("Caculater")
-        self.iconbitmap('Caculator_image2.ico')
         self.style = ttk.Style()
         self.style.theme_use('clam')
 if __name__ == '__main__':
